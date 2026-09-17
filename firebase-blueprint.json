@@ -1,0 +1,168 @@
+{
+  "entities": {
+    "FacultyProfile": {
+      "title": "Faculty Profile",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "firstName": { "type": "string" },
+        "lastName": { "type": "string" },
+        "branch": { "type": "string" },
+        "profilePicture": { "type": "string" }
+      },
+      "required": ["uid", "firstName", "lastName", "branch"]
+    },
+    "StudentProfile": {
+      "title": "Student Profile",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "firstName": { "type": "string" },
+        "lastName": { "type": "string" },
+        "branch": { "type": "string" },
+        "session": { "type": "string" },
+        "registrationNumber": { "type": "string" },
+        "isVerified": { "type": "boolean" },
+        "verifiedBy": { "type": "string" },
+        "profilePicture": { "type": "string" }
+      },
+      "required": ["uid", "firstName", "lastName", "branch", "session", "registrationNumber", "isVerified"]
+    },
+    "AttendanceRecord": {
+      "title": "Attendance Record",
+      "description": "A record of a student's attendance on a specific date.",
+      "type": "object",
+      "properties": {
+        "student_id": { "type": "string", "description": "UID of the student" },
+        "student_name": { "type": "string", "description": "Full name of the student" },
+        "faculty_id": { "type": "string", "description": "UID of the faculty member marking attendance" },
+        "date": { "type": "string", "format": "date", "description": "The date of attendance in YYYY-MM-DD format" },
+        "status": { "type": "string", "enum": ["present", "absent"], "description": "Attendance status" },
+        "timestamp": { "type": "string", "format": "date-time", "description": "Server timestamp of when the record was created/updated" }
+      },
+      "required": ["student_id", "student_name", "faculty_id", "date", "status", "timestamp"]
+    },
+    "Assignment": {
+      "title": "Assignment",
+      "description": "An assignment created by faculty.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "facultyId": { "type": "string" },
+        "branch": { "type": "string" },
+        "session": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "fileUrl": { "type": "string" },
+        "date": { "type": "string", "format": "date" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["facultyId", "branch", "session", "title", "date", "createdAt"]
+    },
+    "Submission": {
+      "title": "Submission",
+      "description": "A student's submission for an assignment.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "assignmentId": { "type": "string" },
+        "studentId": { "type": "string" },
+        "studentName": { "type": "string" },
+        "textResponse": { "type": "string" },
+        "fileUrl": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "accepted", "rejected"] },
+        "submittedAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["assignmentId", "studentId", "status", "submittedAt"]
+    },
+    "ExaminationAlert": {
+      "title": "Examination Alert",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "content": { "type": "string" },
+        "targetBranches": { "type": "array", "items": { "type": "string" } },
+        "targetSessions": { "type": "array", "items": { "type": "string" } },
+        "fileData": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "content", "createdAt"]
+    },
+    "Announcement": {
+      "title": "Announcement",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "content": { "type": "string" },
+        "link": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "content", "createdAt"]
+    },
+    "Club": {
+      "title": "Club",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "adminId": { "type": "string" },
+        "adminName": { "type": "string" },
+        "adminReg": { "type": "string" }
+      },
+      "required": ["name", "adminId"]
+    },
+    "JoinRequest": {
+      "title": "Join Request",
+      "type": "object",
+      "properties": {
+        "clubName": { "type": "string" },
+        "studentUid": { "type": "string" },
+        "studentName": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "accepted", "rejected"] }
+      },
+      "required": ["clubName", "studentUid", "status"]
+    }
+  },
+  "firestore": {
+    "/facultyProfiles/{facultyId}": {
+      "schema": "FacultyProfile",
+      "description": "Faculty profile information."
+    },
+    "/studentProfiles/{studentId}": {
+      "schema": "StudentProfile",
+      "description": "Student profile information."
+    },
+    "/attendance/{recordId}": {
+      "schema": "AttendanceRecord",
+      "description": "Collection of attendance records. recordId is typically studentId_date."
+    },
+    "/assignments/{assignmentId}": {
+      "schema": "Assignment",
+      "description": "Assignments created by faculty."
+    },
+    "/submissions/{submissionId}": {
+      "schema": "Submission",
+      "description": "Submissions for assignments."
+    },
+    "/examinationAlerts/{alertId}": {
+      "schema": "ExaminationAlert",
+      "description": "Examination alerts sent by faculty."
+    },
+    "/publicAnnouncements/{announcementId}": {
+      "schema": "Announcement",
+      "description": "Announcements for the campus."
+    },
+    "/clubs/{clubName}": {
+      "schema": "Club",
+      "description": "Clubs on campus."
+    },
+    "/clubs/{clubName}/members/{studentId}": {
+      "schema": "StudentProfile",
+      "description": "Members of a club."
+    },
+    "/clubs/{clubName}/requests/{requestId}": {
+      "schema": "JoinRequest",
+      "description": "Requests to join a club."
+    }
+  }
+}

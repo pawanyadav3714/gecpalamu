@@ -1,0 +1,8 @@
+{
+  "name": "gecpalamu",
+  "description": "A comprehensive college management portal featuring role-based dashboards for students and faculty, automated verification workflows, and interactive profile management.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
