@@ -70,9 +70,9 @@ export function handleFirestoreError(error: unknown, operationType: OperationTyp
   console.error(`Firestore Error [${code || 'unknown'}]:`, message);
   console.debug('Detailed Error Info:', JSON.stringify(errInfo));
   
-  // We silence offline/unavailable errors as they might be transient during dev or initial load
-  if (code === 'unavailable' || message.includes('offline')) {
-    console.warn("Firestore backend is currently unreachable. Retrying in background...");
+  // We silence offline/unavailable/permission-denied errors to prevent app crashes if Firestore is unprovisioned
+  if (code === 'unavailable' || message.includes('offline') || code === 'permission-denied' || message.includes('permission')) {
+    console.warn("Firestore backend notice:", message);
     return;
   }
 

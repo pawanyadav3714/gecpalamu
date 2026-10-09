@@ -12,8 +12,10 @@ const IMAGES = [
   "gallery/col5.jpg",
   "gallery/col6.png",
   "gallery/col7.jpg",
-  "Hack/h1.png",
-  "Hack/h2.jpeg",
+  ...Array.from({ length: 25 }, (_, i) => {
+    const num = i + 1;
+    return `Hack/h${num}.jpg`;
+  }),
   "arts/ar1.jpeg",
   "arts/ar2.jpeg",
   "arts/ar3.jpeg",

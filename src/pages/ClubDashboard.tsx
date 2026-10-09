@@ -93,10 +93,17 @@ export default function ClubDashboard({ user }: { user: User | null }) {
             </>
           ) : clubName === 'CODE-HACK Club' ? (
             <>
-              <img src={withBase("/Hack/h1.png")} alt={`${clubName} Image 1`} className="rounded-2xl shadow-lg w-full   aspect-[4/5] object-cover" />
-              <img src={withBase("/Hack/h2.jpeg")} alt={`${clubName} Image 2`} className="rounded-2xl shadow-lg w-full   aspect-[4/5] object-cover" />
-              <img src={codeHack3} alt={`${clubName} Image 3`} className="rounded-2xl shadow-lg w-full   aspect-[4/5] object-cover" />
-              <img src={codeHack4} alt={`${clubName} Image 4`} className="rounded-2xl shadow-lg w-full   aspect-[4/5] object-cover" />
+              {Array.from({ length: 25 }, (_, i) => {
+                const num = i + 1;
+                return (
+                  <img
+                    key={num}
+                    src={withBase(`/Hack/h${num}.jpg`)}
+                    alt={`${clubName} Image ${num}`}
+                    className="rounded-2xl shadow-lg w-full aspect-[4/5] object-cover"
+                  />
+                );
+              })}
             </>
           ) : clubName === 'NSS Club' ? (
             <>
